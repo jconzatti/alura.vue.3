@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts">
 import { defineComponent } from 'vue'
 import FormularioTarefa from '../components/FormularioTarefa.vue'
@@ -6,7 +7,7 @@ import type ITarefa from '../interfaces/ITarefa'
 import Box from '../components/Box.vue'
 
 export default defineComponent({
-  name: 'App',
+  name: 'Tarefas',
   components: { FormularioTarefa, Tarefa, Box },
   data() {
     return {
