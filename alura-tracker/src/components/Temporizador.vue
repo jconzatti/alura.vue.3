@@ -22,9 +22,9 @@ export default defineComponent({
       }
     },
     pararTemporizador() {
+      this.$emit('eventoTemporizadorFinalizado', this.tempoEmSegundos)
       this.temporizadorIniciado = false
       clearInterval(this.idDoTemporizador)
-      this.$emit('eventoTemporizadorFinalizado', this.tempoEmSegundos)
       this.idDoTemporizador = 0
       this.tempoEmSegundos = 0
     },

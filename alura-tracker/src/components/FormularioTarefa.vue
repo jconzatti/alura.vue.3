@@ -25,7 +25,7 @@ export default defineComponent({
           texto: 'Tarefa sem projeto definido.',
           tipo: TipoNotificacao.ERRO,
         })
-        return
+        throw new Error('Tarefa sem projeto definido.')
       }
       this.$emit('eventoFinalizarTarefa', {
         descricao: this.descricaoDaTarefa,
