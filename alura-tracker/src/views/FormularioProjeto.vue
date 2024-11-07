@@ -1,5 +1,6 @@
 <script lang="ts">
 import { useStore } from '@/store'
+import { ADICIONAR_PROJETO, ATUALIZAR_PROJETO } from '@/store/tipoMutacao'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -9,9 +10,22 @@ export default defineComponent({
       nomeDoProjeto: '' as string,
     }
   },
+  props: {
+    id: { type: String },
+  },
+  mounted() {
+    if (this.id) {
+      const lProjeto = this.store.state.projetos.find((p) => p.id === this.id)
+      this.nomeDoProjeto = lProjeto?.nome || ''
+    }
+  },
   methods: {
     salvarProjeto() {
-      this.store.commit('ADICIONAR_PROJETO', this.nomeDoProjeto)
+      if (this.id) {
+        this.store.commit(ATUALIZAR_PROJETO, { id: this.id, nome: this.nomeDoProjeto })
+      } else {
+        this.store.commit(ADICIONAR_PROJETO, this.nomeDoProjeto)
+      }
       this.nomeDoProjeto = ''
       this.$router.push('/projetos')
     },
@@ -26,22 +40,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <section class="projetos">
-    <h1 class="title">Projeto</h1>
-    <form @submit.prevent="salvarProjeto">
-      <div class="field">
-        <label for="nome-projeto" class="label">Nome do projeto</label>
-        <input type="text" class="input" id="nome-projeto" v-model="nomeDoProjeto" />
-      </div>
-      <div class="field">
-        <button class="button" type="submit">Salvar</button>
-      </div>
-    </form>
-  </section>
+  <form @submit.prevent="salvarProjeto">
+    <div class="field">
+      <label for="nome-projeto" class="label">Nome do projeto</label>
+      <input type="text" class="input" id="nome-projeto" v-model="nomeDoProjeto" />
+    </div>
+    <div class="field">
+      <button class="button" type="submit">Salvar</button>
+    </div>
+  </form>
 </template>
-
-<style lang="css" scoped>
-.projetos {
-  padding: 1.25rem;
-}
-</style>
