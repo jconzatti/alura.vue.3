@@ -2,6 +2,8 @@
 import { computed, defineComponent } from 'vue'
 import Temporizador from './Temporizador.vue'
 import { useStore } from '@/store'
+import { NOTIFICAR } from '@/store/tipoMutacao'
+import { TipoNotificacao } from '@/interfaces/INotificacao'
 export default defineComponent({
   name: 'FormularioTarefa',
   emits: ['eventoFinalizarTarefa'],
@@ -16,10 +18,19 @@ export default defineComponent({
   },
   methods: {
     finalizarTarefa(pTempoDaTarefaEmSegundos: number): void {
+      const lProjeto = this.projetos.find((lProjeto) => lProjeto.id === this.idDoProjeto)
+      if (!lProjeto) {
+        this.store.commit(NOTIFICAR, {
+          titulo: 'Ops! Deu algo errado.',
+          texto: 'Tarefa sem projeto definido.',
+          tipo: TipoNotificacao.ERRO,
+        })
+        return
+      }
       this.$emit('eventoFinalizarTarefa', {
         descricao: this.descricaoDaTarefa,
         duracaoEmSegundos: pTempoDaTarefaEmSegundos,
-        projeto: this.projetos.find((lProjeto) => lProjeto.id === this.idDoProjeto),
+        projeto: lProjeto,
       })
       this.descricaoDaTarefa = ''
     },
@@ -27,6 +38,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
     return {
+      store,
       projetos: computed(() => store.state.projetos),
     }
   },

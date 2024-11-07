@@ -2,10 +2,11 @@
 import { defineComponent } from 'vue'
 import BarraLateral from './components/BarraLateral.vue'
 import { RouterView } from 'vue-router'
+import Notificacao from './components/Notificacao.vue'
 
 export default defineComponent({
   name: 'App',
-  components: { BarraLateral, RouterView },
+  components: { BarraLateral, RouterView, Notificacao },
 })
 </script>
 
@@ -15,6 +16,7 @@ export default defineComponent({
       <BarraLateral />
     </div>
     <div class="column is-three-quarter">
+      <Notificacao />
       <RouterView />
     </div>
   </main>
